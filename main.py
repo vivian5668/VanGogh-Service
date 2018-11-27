@@ -45,9 +45,6 @@ def lambda_handler():
     device = torch.device("cpu")
     
     
-    # In[3]:
-    
-    
     # this defines how clear the final output will be
     imsize = 100
     
@@ -58,9 +55,6 @@ def lambda_handler():
         transforms.Resize(imsize), # scale imorted image
         transforms.ToTensor()  #transforms it into a torch tensor
     ])
-    
-    
-    # In[7]:
     
     
     basewidth = 500
@@ -123,10 +117,6 @@ def lambda_handler():
             self.loss = F.mse_loss(input, self.target)
             return input
     
-    
-    # In[ ]:
-    
-    
     #style loss
     def gram_matrix(input):
         a, b, c, d = input.size()
@@ -149,16 +139,9 @@ def lambda_handler():
             return input
             
     
-    
-    # In[ ]:
-    
-    
     # import a pre-trained neural network. We will use a 19 layer VGG network
     # Caffee VGG19 model
     cnn = models.vgg19(pretrained=True).features.to(device).eval()
-    
-    
-    # In[ ]:
     
     
     #VGG networks are trained on images with each channel normalized by mean=[0.485, 0.456, 0.406] and std=[0.229, 0.224, 0.225]. We will use them to normalize the image before sending it into the network.
@@ -173,9 +156,6 @@ def lambda_handler():
             self.std = torch.tensor(std).view(-1, 1, 1)
         def forward(self, img):
             return (img - self.mean) / self.std
-    
-    
-    # In[ ]:
     
     
     # desired depth layers to compute style/content losses :
@@ -244,23 +224,14 @@ def lambda_handler():
         return model, style_losses, content_losses
     
     
-    # In[ ]:
-    
-    
     #Next, we select the input image. You can use a copy of the content image or white noise.
     input_img = content_img.clone()
-    
-    
-    # In[ ]:
     
     
     def get_input_optimizer(input_img):
         # this line to show that input is a parameter that requires a gradient
         optimizer = optim.LBFGS([input_img.requires_grad_()])
         return optimizer
-    
-    
-    # In[ ]:
     
     
     def run_style_transfer(cnn, normalization_mean, normalization_std,
@@ -311,9 +282,6 @@ def lambda_handler():
         input_img.data.clamp_(0, 1)
     
         return input_img
-    
-    
-    # In[ ]:
     
     
     output = run_style_transfer(cnn, cnn_normalization_mean, cnn_normalization_std,
