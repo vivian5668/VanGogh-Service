@@ -23,3 +23,29 @@ def lambda_handler(event, context):
     obj = s3.Object(bucket_name, object_name)
     
 
+    
+    attachbyte = MIMEImage(obj.get()['Body'].read())
+    
+    fromaddr = "neuraltransferdatascience@hotmail.com"
+    toaddr = email
+    
+    msg = MIMEMultipart()
+    msg['Subject'] = 'StyleTransfer'
+    msg['From'] = fromaddr
+    msg['To'] = toaddr
+
+    msg.attach(attachbyte)
+
+    # Send the email via our own SMTP server.
+    server = smtplib.SMTP('smtp-mail.outlook.com', 587)
+    server.ehlo()
+    server.starttls()
+    #login details hidden 
+    text = msg.as_string()
+    server.sendmail(fromaddr, toaddr, text)
+    server.quit()
+    
+    return {
+        'statusCode': 200,
+        'body': json.dumps('Hello from Lambda!')
+    }
