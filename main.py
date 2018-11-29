@@ -41,21 +41,18 @@ def lambda_handler():
     import io
     import boto3
     
-    
+    #you can choose to use GPU if available which will make the calculations faster
     device = torch.device("cpu")
     
     
     # this defines how clear the final output will be
     imsize = 100
     
-    
-    
-    
     loader = transforms.Compose([
-        transforms.Resize(imsize), # scale imorted image
+        transforms.Resize(imsize), # scale imported image
         transforms.ToTensor()  #transforms it into a torch tensor
     ])
-    
+
     
     basewidth = 500
     def getStringIO(filename):
