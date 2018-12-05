@@ -1,0 +1,43 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'sam-app
+
+  Sample SAM Template for sam-app
+
+  '
+Globals:
+  Function:
+    Timeout: 60
+Outputs:
+  StyleTransferSamApi:
+    Description: API Gateway endpoint URL for Prod stage for Hello World function
+    Value:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/submit/
+  StyleTransferSamFunction:
+    Description: Hello World Lambda Function ARN
+    Value:
+      Fn::GetAtt:
+      - StyleTransferSamFunction
+      - Arn
+  StyleTransferSamFunctionIamRole:
+    Description: Implicit IAM Role created for Hello World function
+    Value:
+      Fn::GetAtt:
+      - StyleTransferSamFunctionRole
+      - Arn
+Resources:
+  StyleTransferSamFunction:
+    Properties:
+      CodeUri: s3://style-transfer-sam/dce26aa9b146bdb09f5e436311c911b9
+      Environment:
+        Variables:
+          PARAM1: VALUE
+      Events:
+        StyleTransferSam:
+          Properties:
+            Method: post
+            Path: /submit
+          Type: Api
+      Handler: app.lambda_handler
+      Runtime: python3.7
+    Type: AWS::Serverless::Function
+Transform: AWS::Serverless-2016-10-31

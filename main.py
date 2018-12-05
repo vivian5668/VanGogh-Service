@@ -8,6 +8,7 @@ AWS_REGION = os.environ.get('AWS_REGION', 'us-west-2')
 CONTENT_IMAGE_PATH = os.environ.get("CONTENT_IMAGE_PATH", "s3://lambda-pytorch-test/portrait_content_girl.jpeg")
 STYLE_IMAGE_PATH = os.environ.get("STYLE_IMAGE_PATH", "s3://lambda-pytorch-test/Starry_Night_style.jpg")
 OUTPUT_IMAGE_PATH = os.environ.get("OUTPUT_IMAGE_PATH", "s3://lambda-pytorch-test/test.jpeg")
+RESOLUTION = os.environ.get("RESOLUTION", "100")
 
 def get_bucket_and_object_name(s3location):
     """
@@ -46,7 +47,7 @@ def lambda_handler():
     
     
     # this defines how clear the final output will be
-    imsize = 100
+    imsize = int(RESOLUTION)
     
     loader = transforms.Compose([
         transforms.Resize(imsize), # scale imported image
