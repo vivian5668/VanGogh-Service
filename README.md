@@ -15,4 +15,3 @@ https://pytorch.org/tutorials/advanced/neural_style_tutorial.html
 
 - to test docker locally, make sure AWS credentials are in `~/.aws/credentials`
 - `bash sample_docker_run.sh`
-
