@@ -157,7 +157,7 @@ def lambda_handler():
     
     
     # desired depth layers to compute style/content losses :
-    content_layers_default = ['conv_2', 'conv_5']
+    content_layers_default = ['conv_4']
     style_layers_default = ['conv_1', 'conv_2', 'conv_3', 'conv_4', 'conv_5']
     
     def get_style_model_and_losses(cnn, normalization_mean, normalization_std,
